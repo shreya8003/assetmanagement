@@ -1,0 +1,51 @@
+pipeline {
+    agent any
+    tools {
+        maven 'Maven 3.x'
+        jdk 'Java 17'
+    }
+    environment {
+        IMAGE_NAME = 'assetmanagementsystem'
+        TAG = 'latest'
+    }
+    stages {
+        stage('Checkout') {
+            steps {
+                echo 'Checking out source code...'
+                checkout scm
+            }
+        }
+        stage('Build') {
+            steps {
+                echo 'Building application...'
+                bat 'mvn clean compile'
+            }
+        }
+        stage('Test') {
+            steps {
+                echo 'Running unit tests...'
+                bat 'mvn test'
+            }
+        }
+        stage('Package') {
+            steps {
+                echo 'Packaging application...'
+                bat 'mvn package -DskipTests'
+            }
+        }
+        stage('Docker Build') {
+            steps {
+                echo 'Building Docker Image...'
+                bat "docker build -t ${IMAGE_NAME}:${TAG} ."
+            }
+        }
+    }
+    post {
+        success {
+            echo 'CI/CD Pipeline executed successfully!'
+        }
+        failure {
+            echo 'Pipeline failed. Please check build logs.'
+        }
+    }
+}

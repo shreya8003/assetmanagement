@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AssetFlow — Employee Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="login-page">
+
+  <!-- Toast notification -->
+  <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index:9999">
+    <div id="appToast" class="toast align-items-center border-0" role="alert" aria-live="assertive">
+      <div class="d-flex">
+        <div class="toast-body" id="toastMsg">Done.</div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+      </div>
+    </div>
+  </div>
+
+  <div class="login-bg">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+    <div class="grid-overlay"></div>
+  </div>
+
+  <div class="login-container">
+    <div class="login-card">
+      <div class="login-brand">
+        <div class="brand-icon">
+          <i class="bi bi-person-badge-fill"></i>
+        </div>
+        <h1 class="brand-name">AssetFlow</h1>
+        <p class="brand-tagline">Employee Portal</p>
+      </div>
+
+      <!-- Tabs -->
+      <div class="auth-tabs">
+        <button class="auth-tab active" id="tabLogin">Sign In</button>
+        <button class="auth-tab" id="tabRegister">Sign Up</button>
+      </div>
+
+      <!-- Login Form -->
+      <form id="loginForm" autocomplete="off">
+        <div class="form-floating mb-3">
+          <input type="text" class="form-control login-input" id="username" placeholder="Username" required autofocus />
+          <label for="username"><i class="bi bi-person me-2"></i>Username</label>
+        </div>
+        <div class="form-floating mb-4">
+          <input type="password" class="form-control login-input" id="password" placeholder="Password" required />
+          <label for="password"><i class="bi bi-lock me-2"></i>Password</label>
+          <button type="button" class="btn-toggle-pw" id="togglePassword">
+            <i class="bi bi-eye" id="togglePwIcon"></i>
+          </button>
+        </div>
+        <div id="loginError" class="alert alert-danger login-error d-none" role="alert">
+          <i class="bi bi-exclamation-triangle-fill me-2"></i>
+          <span id="loginErrorMsg">Invalid credentials.</span>
+        </div>
+        <button type="submit" class="btn btn-login w-100" id="loginBtn">
+          <span id="loginBtnText"><i class="bi bi-arrow-right-circle me-2"></i>Sign In</span>
+          <span id="loginBtnSpinner" class="d-none">
+            <span class="spinner-border spinner-border-sm me-2"></span>Signing in...
+          </span>
+        </button>
+      </form>
+
+      <!-- Register Form -->
+      <form id="registerForm" class="d-none" autocomplete="off">
+        <div class="form-floating mb-3">
+          <input type="text" class="form-control login-input" id="regUsername" placeholder="Username" required />
+          <label for="regUsername"><i class="bi bi-person me-2"></i>Username</label>
+        </div>
+        <div class="form-floating mb-3">
+          <input type="email" class="form-control login-input" id="regEmail" placeholder="Work Email" required />
+          <label for="regEmail"><i class="bi bi-envelope me-2"></i>Work Email</label>
+        </div>
+        <div class="form-floating mb-3">
+          <input type="password" class="form-control login-input" id="regPassword" placeholder="Password" required />
+          <label for="regPassword"><i class="bi bi-lock me-2"></i>Password</label>
+        </div>
+        <div class="form-floating mb-4">
+          <input type="password" class="form-control login-input" id="regConfirm" placeholder="Confirm Password" required />
+          <label for="regConfirm"><i class="bi bi-lock-fill me-2"></i>Confirm Password</label>
+        </div>
+        <div id="registerError" class="alert alert-danger login-error d-none" role="alert">
+          <i class="bi bi-exclamation-triangle-fill me-2"></i>
+          <span id="registerErrorMsg">Registration failed.</span>
+        </div>
+        <button type="submit" class="btn btn-login w-100" id="registerBtn">
+          <span id="registerBtnText"><i class="bi bi-person-plus me-2"></i>Create Account</span>
+          <span id="registerBtnSpinner" class="d-none">
+            <span class="spinner-border spinner-border-sm me-2"></span>Creating...
+          </span>
+        </button>
+      </form>
+
+      <div class="login-hint" id="loginHint">
+        <i class="bi bi-info-circle me-1"></i>Use your company email to sign up.
+      </div>
+      <div class="login-hint d-none" id="registerHint">
+        <i class="bi bi-info-circle me-1"></i>Your email must match an employee record added by admin.
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="user-login.js"></script>
+</body>
+</html>
