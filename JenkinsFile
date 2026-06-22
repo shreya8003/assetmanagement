@@ -39,12 +39,20 @@ pipeline {
                 bat "docker build -t ${IMAGE_NAME}:${TAG} ."
             }
         }
-        stage('Docker Run') {
+        stage('Load Image to Minikube') {
             steps {
-                echo 'Deploying Docker Container...'
-                bat "docker stop ${IMAGE_NAME} || exit 0"
-                bat "docker rm ${IMAGE_NAME} || exit 0"
-                bat "docker run -d --name ${IMAGE_NAME} -p 8085:8085 --add-host=host.docker.internal:host-gateway -e SPRING_DATASOURCE_URL=jdbc:mysql://host.docker.internal:3306/assetdb?createDatabaseIfNotExist=true^&useSSL=false^&allowPublicKeyRetrieval=true -e SPRING_DATASOURCE_USERNAME=root -e SPRING_DATASOURCE_PASSWORD=admin123 ${IMAGE_NAME}:${TAG}"
+                echo 'Loading Docker image into Minikube...'
+                bat "minikube image load ${IMAGE_NAME}:${TAG}"
+            }
+        }
+        stage('Deploy to Kubernetes') {
+            steps {
+                echo 'Applying Kubernetes manifests...'
+                bat "kubectl apply -f k8s/"
+                echo 'Restarting app deployment to pick up new image...'
+                bat "kubectl rollout restart deployment/assetmanagementsystem-deployment"
+                echo 'Waiting for rollout to complete...'
+                bat "kubectl rollout status deployment/assetmanagementsystem-deployment --timeout=120s"
             }
         }
     }

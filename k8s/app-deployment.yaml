@@ -26,8 +26,8 @@ spec:
               echo "MySQL is up!"
       containers:
         - name: assetmanagementsystem
-          image: assetmanagementsystem:latest
-          imagePullPolicy: Never
+          image: shreya8803/assetmanagementsystem:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 8085
           env:

@@ -1,6 +1,7 @@
 package com.wip.assetmanagementsystem.dto;
 
 import java.time.LocalDate;
+import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
 import com.wip.assetmanagementsystem.entity.AssetAssignment;
 
@@ -15,6 +16,7 @@ public class AssetAssignmentDTO {
     private EmployeeDTO employee;
 
     @NotNull(message = "Assigned date is required")
+    @FutureOrPresent(message = "Assigned date must be today or a future date")
     private LocalDate assignedDate;
 
     private LocalDate returnDate;

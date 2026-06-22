@@ -1,15 +1,39 @@
 version: '3.8'
 
 services:
-  
+  db:
+    image: mysql:8.0
+    container_name: assetmanagement-db
+    environment:
+      MYSQL_DATABASE: assetdb
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_USER: assetuser
+      MYSQL_PASSWORD: strongpassword
+    ports:
+      - "3320:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-prootpassword"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+
   app:
     build: .
     container_name: assetmanagement-app
     ports:
       - "8085:8085"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://host.docker.internal:3306/assetdb?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
-      - SPRING_DATASOURCE_USERNAME=root
-      - SPRING_DATASOURCE_PASSWORD=admin123
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/assetdb?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_USERNAME=assetuser
+      - SPRING_DATASOURCE_PASSWORD=strongpassword
+    depends_on:
+      db:
+        condition: service_healthy
+
+
+
+volumes:
+  mysql_data:

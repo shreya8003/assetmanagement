@@ -3,6 +3,7 @@ package com.wip.assetmanagementsystem.dto;
 import java.math.BigDecimal;
 import java.sql.Date;
 import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -21,6 +22,7 @@ public class AssetDTO {
     private String serialno;
 
     @Size(max = 50, message = "Price must be less than 50 characters")
+    @Min(value=1, message="PRice must be greater than zero")
     private String price;
 
     private Date purchaseDate;
