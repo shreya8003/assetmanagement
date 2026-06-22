@@ -39,12 +39,13 @@ pipeline {
                 bat "docker build -t ${IMAGE_NAME}:${TAG} ."
             }
         }
-        stage('Load Image to Minikube') {
-            steps {
-                echo 'Loading Docker image into Minikube...'
-                bat "minikube image load ${IMAGE_NAME}:${TAG}"
-            }
-        }
+        stage('Push Docker Image') {
+    	steps {
+        	echo 'Pushing Docker image to registry...'
+        	bat "docker tag ${IMAGE_NAME}:${TAG} your-dockerhub-username/${IMAGE_NAME}:${TAG}"
+        	bat "docker push your-dockerhub-username/${IMAGE_NAME}:${TAG}"
+    	}
+		}
         stage('Deploy to Kubernetes') {
             steps {
                 echo 'Applying Kubernetes manifests...'
