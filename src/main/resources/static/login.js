@@ -1,4 +1,4 @@
-const API = 'http://localhost:8085';
+const API = window.location.origin;
 
 // Toggle password visibility
 document.getElementById('togglePassword').addEventListener('click', () => {

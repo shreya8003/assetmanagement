@@ -1,4 +1,4 @@
-const API = 'http://localhost:8085';
+const API = window.location.origin;
 
 if (sessionStorage.getItem('token') && sessionStorage.getItem('role') === 'USER') {
   window.location.href = 'user-dashboard.html';

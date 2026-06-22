@@ -1,4 +1,4 @@
-const API = 'http://localhost:8085';
+const API = window.location.origin;
 
 function getToken()    { return sessionStorage.getItem('token'); }
 function getUsername() { return sessionStorage.getItem('username') || 'User'; }
