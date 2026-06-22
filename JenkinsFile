@@ -33,29 +33,7 @@ pipeline {
                 bat 'mvn package -DskipTests'
             }
         }
-        stage('Docker Build') {
-            steps {
-                echo 'Building Docker Image...'
-                bat "docker build -t ${IMAGE_NAME}:${TAG} ."
-            }
-        }
-        stage('Push Docker Image') {
-    	steps {
-        	echo 'Pushing Docker image to registry...'
-        	bat "docker tag ${IMAGE_NAME}:${TAG} your-dockerhub-username/${IMAGE_NAME}:${TAG}"
-        	bat "docker push your-dockerhub-username/${IMAGE_NAME}:${TAG}"
-    	}
-		}
-        stage('Deploy to Kubernetes') {
-            steps {
-                echo 'Applying Kubernetes manifests...'
-                bat "kubectl apply -f k8s/"
-                echo 'Restarting app deployment to pick up new image...'
-                bat "kubectl rollout restart deployment/assetmanagementsystem-deployment"
-                echo 'Waiting for rollout to complete...'
-                bat "kubectl rollout status deployment/assetmanagementsystem-deployment --timeout=120s"
-            }
-        }
+        
     }
     post {
         success {
