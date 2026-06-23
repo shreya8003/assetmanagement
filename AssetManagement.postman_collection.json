@@ -1,0 +1,549 @@
+{
+  "info": {
+    "name": "Asset Management System",
+    "description": "Complete API collection for Asset Management System - Spring Boot",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8085",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var res = pm.response.json();",
+                  "if (res.token) {",
+                  "    pm.collectionVariables.set('token', res.token);",
+                  "    console.log('Token saved:', res.token);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"admin\",\n  \"password\": \"admin123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "login"]
+            },
+            "description": "Login with username and password. Token is auto-saved to collection variable."
+          }
+        },
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"john_doe\",\n  \"email\": \"john@example.com\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/register",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "register"]
+            },
+            "description": "Register a new user. Email must match an existing employee record added by admin."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Categories",
+      "item": [
+        {
+          "name": "Get All Categories",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/categories",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "categories"]
+            }
+          }
+        },
+        {
+          "name": "Get Category By ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/categories/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "categories", "1"]
+            }
+          }
+        },
+        {
+          "name": "Create Category",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Laptop\",\n  \"description\": \"Portable computing devices\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/categories",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "categories"]
+            }
+          }
+        },
+        {
+          "name": "Update Category",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Laptop & Notebooks\",\n  \"description\": \"Portable computing devices including notebooks\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/categories/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "categories", "1"]
+            }
+          }
+        },
+        {
+          "name": "Delete Category",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/categories/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "categories", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Assets",
+      "item": [
+        {
+          "name": "Get All Assets",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/assets",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "assets"]
+            }
+          }
+        },
+        {
+          "name": "Get Asset By ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/assets/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "assets", "1"]
+            }
+          }
+        },
+        {
+          "name": "Create Asset",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Dell Laptop XPS 15\",\n  \"serialno\": \"DELL-XPS-001\",\n  \"price\": \"85000\",\n  \"purchaseDate\": \"2024-01-15\",\n  \"purchasePrice\": 85000.00,\n  \"status\": \"AVAILABLE\",\n  \"category\": {\n    \"id\": 1,\n    \"name\": \"Laptop\",\n    \"description\": \"Portable computing devices\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/assets",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "assets"]
+            },
+            "description": "Create a new asset. Category must exist first. Status values: AVAILABLE, ASSIGNED, UNDER_MAINTENANCE"
+          }
+        },
+        {
+          "name": "Update Asset",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Dell Laptop XPS 15 (Updated)\",\n  \"serialno\": \"DELL-XPS-001\",\n  \"price\": \"82000\",\n  \"purchaseDate\": \"2024-01-15\",\n  \"purchasePrice\": 82000.00,\n  \"status\": \"AVAILABLE\",\n  \"category\": {\n    \"id\": 1,\n    \"name\": \"Laptop\",\n    \"description\": \"Portable computing devices\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/assets/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "assets", "1"]
+            }
+          }
+        },
+        {
+          "name": "Delete Asset",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/assets/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "assets", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Employees",
+      "item": [
+        {
+          "name": "Get All Employees",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/employees",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "employees"]
+            }
+          }
+        },
+        {
+          "name": "Get Employee By ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/employees/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "employees", "1"]
+            }
+          }
+        },
+        {
+          "name": "Create Employee",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"John Doe\",\n  \"email\": \"john.doe@company.com\",\n  \"company\": \"WIP Technologies\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/employees",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "employees"]
+            },
+            "description": "Admin creates employee. Employee can then register using this email."
+          }
+        },
+        {
+          "name": "Update Employee",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"John Doe (Updated)\",\n  \"email\": \"john.doe@company.com\",\n  \"company\": \"WIP Technologies Pvt Ltd\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/employees/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "employees", "1"]
+            }
+          }
+        },
+        {
+          "name": "Delete Employee",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/employees/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "employees", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Asset Assignments",
+      "item": [
+        {
+          "name": "Get All Assignments",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/assignments",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "assignments"]
+            }
+          }
+        },
+        {
+          "name": "Get Assignment By ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/assignments/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "assignments", "1"]
+            }
+          }
+        },
+        {
+          "name": "Create Assignment",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"asset\": {\n    \"id\": 1,\n    \"name\": \"Dell Laptop XPS 15\",\n    \"serialno\": \"DELL-XPS-001\",\n    \"status\": \"AVAILABLE\",\n    \"category\": {\n      \"id\": 1,\n      \"name\": \"Laptop\"\n    }\n  },\n  \"employee\": {\n    \"id\": 1,\n    \"name\": \"John Doe\",\n    \"email\": \"john.doe@company.com\",\n    \"company\": \"WIP Technologies\"\n  },\n  \"assignedDate\": \"2024-06-01\",\n  \"returnDate\": \"2024-12-31\",\n  \"status\": \"ASSIGNED\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/assignments",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "assignments"]
+            },
+            "description": "Assign an asset to an employee. Both asset and employee must exist."
+          }
+        },
+        {
+          "name": "Update Assignment",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"asset\": {\n    \"id\": 1,\n    \"name\": \"Dell Laptop XPS 15\",\n    \"serialno\": \"DELL-XPS-001\",\n    \"status\": \"ASSIGNED\",\n    \"category\": {\n      \"id\": 1,\n      \"name\": \"Laptop\"\n    }\n  },\n  \"employee\": {\n    \"id\": 1,\n    \"name\": \"John Doe\",\n    \"email\": \"john.doe@company.com\",\n    \"company\": \"WIP Technologies\"\n  },\n  \"assignedDate\": \"2024-06-01\",\n  \"returnDate\": \"2025-03-31\",\n  \"status\": \"RETURNED\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/assignments/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "assignments", "1"]
+            }
+          }
+        },
+        {
+          "name": "Delete Assignment",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/assignments/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "assignments", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Maintenance Logs",
+      "item": [
+        {
+          "name": "Get All Maintenance Logs",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/maintenance",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "maintenance"]
+            }
+          }
+        },
+        {
+          "name": "Get Maintenance Log By ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/maintenance/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "maintenance", "1"]
+            }
+          }
+        },
+        {
+          "name": "Create Maintenance Log",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"asset\": {\n    \"id\": 1,\n    \"name\": \"Dell Laptop XPS 15\",\n    \"serialno\": \"DELL-XPS-001\",\n    \"status\": \"UNDER_MAINTENANCE\",\n    \"category\": {\n      \"id\": 1,\n      \"name\": \"Laptop\"\n    }\n  },\n  \"maintainanceDate\": \"2024-06-15\",\n  \"description\": \"Screen replacement required due to cracked display\",\n  \"status\": \"PENDING\",\n  \"submittedByUsername\": \"john_doe\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/maintenance",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "maintenance"]
+            },
+            "description": "Status values: PENDING, APPROVED, REJECTED, COMPLETED"
+          }
+        },
+        {
+          "name": "Update Maintenance Log",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"asset\": {\n    \"id\": 1,\n    \"name\": \"Dell Laptop XPS 15\",\n    \"serialno\": \"DELL-XPS-001\",\n    \"status\": \"UNDER_MAINTENANCE\",\n    \"category\": {\n      \"id\": 1,\n      \"name\": \"Laptop\"\n    }\n  },\n  \"maintainanceDate\": \"2024-06-15\",\n  \"description\": \"Screen replacement required due to cracked display\",\n  \"status\": \"APPROVED\",\n  \"rejectionMessage\": null,\n  \"submittedByUsername\": \"john_doe\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/maintenance/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "maintenance", "1"]
+            }
+          }
+        },
+        {
+          "name": "Delete Maintenance Log",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/maintenance/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "maintenance", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Actuator",
+      "item": [
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/actuator/health",
+              "host": ["{{baseUrl}}"],
+              "path": ["actuator", "health"]
+            }
+          }
+        },
+        {
+          "name": "App Info",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/actuator/info",
+              "host": ["{{baseUrl}}"],
+              "path": ["actuator", "info"]
+            }
+          }
+        },
+        {
+          "name": "Metrics",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/actuator/metrics",
+              "host": ["{{baseUrl}}"],
+              "path": ["actuator", "metrics"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
